@@ -1,7 +1,7 @@
 import csv
 import time
 
-filename = "wordlist.csv"
+filename = "4000-most-common-english-words.csv"
 
 # Load word list from CSV file into a list
 def load_word_list(file_path):
@@ -21,15 +21,19 @@ def check_words_linear(word_list, text):
             found_words.append(word)
     return found_words
 
-# Function 2: Check words using a hashed lookup (set)
-def check_words_hash(word_list, text):
+# Function 2: Check words using a set lookup (set)
+def check_words_set(word_list, text):
     word_set = set(word_list)  # Convert list to set for faster lookup
     words_in_text = text.split()
     found_words = []
     for word in words_in_text:
-        if word in word_set:  # Hash lookup in the set
+        if word in word_set:  # Lookup in the set
             found_words.append(word)
     return found_words
+
+# Function 3: Use a hash value
+def check_words_hash(word_list, text):
+    pass
 
 # Timing function to compare the performance of both approaches
 def time_check_functions(word_list, text):
@@ -38,10 +42,15 @@ def time_check_functions(word_list, text):
     linear_time = time.time() - start_time
 
     start_time = time.time()
+    found_words_set = check_words_set(word_list, text)
+    set_time = time.time() - start_time
+
+    start_time = time.time()
     found_words_hash = check_words_hash(word_list, text)
     hash_time = time.time() - start_time
 
     print(f"Linear Search Time: {linear_time:.6f} seconds")
+    print(f"Hashed Search Time: {set_time:.6f} seconds")
     print(f"Hashed Search Time: {hash_time:.6f} seconds")
 
     # Optional: Check if the results are consistent
